@@ -1,0 +1,107 @@
+{
+  "data/raw/firms/viirs-snpp_2012_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2012_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2012/viirs-snpp_2012_Bolivia.csv",
+    "bytes": 12803357,
+    "sha256": "98402f8db08039f37d576b21f2783513fa42ac226fd8f0633b7b9b411a945630",
+    "downloaded_at": "2026-11-12T19:11:20+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2013_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2013_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2013/viirs-snpp_2013_Bolivia.csv",
+    "bytes": 9299098,
+    "sha256": "dcf074319fb78a3ff60ae607732d6bd597089adedc173acb41815aa7909046a6",
+    "downloaded_at": "2026-11-12T19:11:51+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2014_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2014_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2014/viirs-snpp_2014_Bolivia.csv",
+    "bytes": 8173152,
+    "sha256": "6c4eaad43169f0e128366f1493dca424415d5288941fdbcbe956efe0fd7c4868",
+    "downloaded_at": "2026-11-12T19:12:21+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2015_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2015_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2015/viirs-snpp_2015_Bolivia.csv",
+    "bytes": 11776343,
+    "sha256": "a24a74e54a0ec3f1fea352aa3ddf1d12fc50886e34e6d9fd645ac8e94e792ab0",
+    "downloaded_at": "2026-11-12T19:12:36+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2016_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2016_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2016/viirs-snpp_2016_Bolivia.csv",
+    "bytes": 19951401,
+    "sha256": "27cb320e6fb65bfc6d611ca62564e80006642f223240f15db1fd5164ce28a278",
+    "downloaded_at": "2026-11-12T19:13:41+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2017_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2017_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2017/viirs-snpp_2017_Bolivia.csv",
+    "bytes": 16059726,
+    "sha256": "ba47dd4ee0fa6a75ae25bec4e901e316948db0d2897f98b1546cf8ff31d7e5f5",
+    "downloaded_at": "2026-11-12T19:14:14+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2018_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2018_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2018/viirs-snpp_2018_Bolivia.csv",
+    "bytes": 13991894,
+    "sha256": "84006cdb5c1ba6aa4f72ce545690d89cfc2a69e27b3a1c34d2552d2921b0f375",
+    "downloaded_at": "2026-11-12T19:14:44+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2019_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2019_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2019/viirs-snpp_2019_Bolivia.csv",
+    "bytes": 30500545,
+    "sha256": "d4c02dc759a59a88953502ed2af578b2a6e28e1f41e58e6be3e412381a4befd6",
+    "downloaded_at": "2026-11-12T19:15:48+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2020_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2020_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2020/viirs-snpp_2020_Bolivia.csv",
+    "bytes": 24807383,
+    "sha256": "d8b1996f60a2aa23cd333018933621c7c8086b4b9a6dc230f8fa65725d8fc05a",
+    "downloaded_at": "2026-11-12T19:16:45+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2021_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2021_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2021/viirs-snpp_2021_Bolivia.csv",
+    "bytes": 24336376,
+    "sha256": "1cad0efd45936bf713757d384f2dd9107d7d1ac4f6c69464b10661cdda70aa93",
+    "downloaded_at": "2026-11-12T19:17:52+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2022_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2022_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2022/viirs-snpp_2022_Bolivia.csv",
+    "bytes": 26501244,
+    "sha256": "bf4e23c28d9772bd89bfc3b0a48d1d711ca3d6eaa1360cf03cb3703fd405f526",
+    "downloaded_at": "2026-11-12T19:19:01+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2023_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2023_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2023/viirs-snpp_2023_Bolivia.csv",
+    "bytes": 28618958,
+    "sha256": "7da60f6997860ea79ec5e9a30f3f3af40915a92216bd3d2a6d4991575a2e7b1f",
+    "downloaded_at": "2026-11-12T19:19:50+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2024_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2024_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2024/viirs-snpp_2024_Bolivia.csv",
+    "bytes": 70973784,
+    "sha256": "5011381a135498842d2aaaedf3df1775c39e164b2fc049bffcbb74ed9b1d6dda",
+    "downloaded_at": "2026-11-12T19:23:27+00:00"
+  },
+  "data/raw/firms/viirs-snpp_2025_Bolivia.csv": {
+    "file": "data/raw/firms/viirs-snpp_2025_Bolivia.csv",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2025/viirs-snpp_2025_Bolivia.csv",
+    "bytes": 11207693,
+    "sha256": "088df3c976f0d2015d0768a5a8d54cf80c2085e65d894045f7d6ca78ed262f7d",
+    "downloaded_at": "2026-11-12T19:24:05+00:00"
+  },
+  "data/raw/oni/oni.ascii.txt": {
+    "file": "data/raw/oni/oni.ascii.txt",
+    "url": "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt",
+    "bytes": 23050,
+    "sha256": "118c563331335c8649cdc2677e6be7ae89d1259d901345fcddbc2857af280f7f",
+    "downloaded_at": "2026-11-12T19:24:06+00:00"
+  }
+}
