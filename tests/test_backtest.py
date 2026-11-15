@@ -85,3 +85,22 @@ def test_origins_count_and_range() -> None:
     assert len(o) == 63
     assert (o.to_series().diff().dropna() == pd.Timedelta(weeks=4)).all()
     assert o[-1] + pd.Timedelta(weeks=12) <= SAMPLE_END < o[-1] + pd.Timedelta(weeks=16)
+
+
+def test_comparison_uses_common_targets_and_ratio() -> None:
+    from fires.metrics import comparison_table
+
+    base = pd.DataFrame({
+        "origin": pd.to_datetime(["2023-01-02"] * 3),
+        "target_week": pd.to_datetime(["2023-01-09", "2023-01-16", "2023-01-23"]),
+        "h": [1, 1, 1],
+        "y_true": [10.0, 20.0, np.nan],
+        "y_pred": [14.0, 20.0, 5.0],
+    })
+    other = base.copy()
+    other["y_pred"] = [12.0, np.nan, 5.0]  # NaN where naive has a value: target dropped for both
+    t = comparison_table({"seasonal_naive": base, "m": other})
+    a = t[t["eval_set"] == "all"].set_index("model")
+    assert (a["n"] == 1).all()
+    assert a.loc["seasonal_naive", "bias"] == 4.0 and a.loc["m", "bias"] == 2.0
+    assert a.loc["m", "mae_ratio_vs_naive"] == 0.5

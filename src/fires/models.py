@@ -73,13 +73,27 @@ def fit_sarimax(y: pd.Series, K: int, order, trend: str, seasonal_order=(0, 0, 0
 
 
 def make_fourier_arima(K: int, order, trend: str):
-    """Factory: fit_forecast(train, h) for Fourier terms + ARIMA(order) errors (log1p scale)."""
+    """Factory: fit_forecast(train, h) for Fourier terms + ARIMA(order) errors (log1p scale).
+
+    The returned function keeps ``fit_forecast.fitlog``: one dict per call with the origin,
+    convergence flag and any exception. A non-converged fit is still used; a failed fit
+    returns NaN forecasts.
+    """
+    fitlog: list[dict] = []
 
     def fit_forecast(train: pd.Series, h: int) -> pd.Series:
-        res = fit_sarimax(train, K, order, trend)
         idx = future_index(train, h)
-        exog = fourier_terms(idx, K) if K > 0 else None
-        fc = res.forecast(h, exog=exog)
-        return pd.Series(fc.to_numpy(), index=idx, name="y_pred")
+        entry = {"origin": train.index[-1], "converged": False, "error": ""}
+        fitlog.append(entry)
+        try:
+            res = fit_sarimax(train, K, order, trend)
+            entry["converged"] = bool(res.mle_retvals.get("converged", False))
+            exog = fourier_terms(idx, K) if K > 0 else None
+            fc = res.forecast(h, exog=exog).to_numpy()
+        except Exception as e:  # noqa: BLE001
+            entry["error"] = f"{type(e).__name__}: {e}"
+            fc = np.full(h, np.nan)
+        return pd.Series(fc, index=idx, name="y_pred")
 
+    fit_forecast.fitlog = fitlog
     return fit_forecast

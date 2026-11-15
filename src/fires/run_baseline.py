@@ -8,11 +8,17 @@ from __future__ import annotations
 
 import argparse
 
+import pandas as pd
+
 from fires.backtest import RESULTS, load_series, rolling_origin
 from fires.metrics import metrics_by_horizon
-from fires.models import seasonal_naive
+from fires.models import make_fourier_arima, seasonal_naive
 
-MODELS = {"seasonal_naive": seasonal_naive}
+MODELS = {
+    "seasonal_naive": seasonal_naive,
+    "fourier_arma101": make_fourier_arima(2, (1, 0, 1), "c"),
+    "fourier_arima012": make_fourier_arima(2, (0, 1, 2), "n"),
+}
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -21,7 +27,15 @@ def main(argv: list[str] | None = None) -> None:
     name = ap.parse_args(argv).model
 
     df = load_series()
-    fc = rolling_origin(MODELS[name], df)
+    model = MODELS[name]
+    fc = rolling_origin(model, df)
+    fitlog = getattr(model, "fitlog", None)
+    if fitlog is not None:
+        log = pd.DataFrame(fitlog).assign(model=name)[["origin", "model", "converged", "error"]]
+        (RESULTS / "forecasts").mkdir(parents=True, exist_ok=True)
+        log.to_csv(RESULTS / "forecasts" / f"{name}_fitlog.csv", index=False)
+        print(f"not converged: {(~log['converged']).sum()} of {len(log)}; "
+              f"errors: {(log['error'] != '').sum()}")
     (RESULTS / "forecasts").mkdir(parents=True, exist_ok=True)
     (RESULTS / "metrics").mkdir(parents=True, exist_ok=True)
     fc.to_parquet(RESULTS / "forecasts" / f"{name}.parquet", index=False)
