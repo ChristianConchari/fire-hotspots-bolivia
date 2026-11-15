@@ -8,6 +8,9 @@ dependencies = [
     "pyarrow>=16",
     "matplotlib>=3.8",
     "statsmodels>=0.14",
+    "pmdarima>=2.1.1",
+    "nbformat>=5.11.1",
+    "nbconvert>=7.17.2",
 ]
 
 [dependency-groups]

@@ -1,0 +1,21 @@
+sample,series,test,regression,stat,pvalue,lags,pvalue_truncated,conclusion
+ident,y,ADF,c,-7.634991774785512,1.963162122388904e-11,14,False,estacionaria
+ident,y,ADF,ct,-8.205958309847421,2.3879917048044747e-11,16,False,estacionaria
+ident,y,KPSS,c,0.41920010121830314,0.06887926671624865,12,False,estacionaria
+ident,y,KPSS,ct,0.023110533187837387,0.1,12,True,estacionaria
+ident,Δ1 y,ADF,c,-6.138695476010319,8.06917606472732e-08,18,False,estacionaria
+ident,Δ1 y,KPSS,c,0.02262522473024191,0.1,25,True,estacionaria
+ident,Δ52 y,ADF,c,-6.369962353697703,2.3583718552922085e-08,3,False,estacionaria
+ident,Δ52 y,KPSS,c,0.16800569359852754,0.1,9,True,estacionaria
+ident,Δ1Δ52 y,ADF,c,-10.335211073649026,2.775391542371889e-18,8,False,estacionaria
+ident,Δ1Δ52 y,KPSS,c,0.1216107126406489,0.1,92,True,estacionaria
+full,y,ADF,c,-9.210040034982418,1.898590405586584e-15,14,False,estacionaria
+full,y,ADF,ct,-8.777062869613689,1.1642214618583206e-12,20,False,estacionaria
+full,y,KPSS,c,0.44557390307432576,0.05751124867485959,16,False,estacionaria
+full,y,KPSS,ct,0.03285822697243409,0.1,16,True,estacionaria
+full,Δ1 y,ADF,c,-7.447491692074038,5.7865080629835707e-11,18,False,estacionaria
+full,Δ1 y,KPSS,c,0.03207308065220892,0.1,6,True,estacionaria
+full,Δ52 y,ADF,c,-6.650802503368619,5.126875736052965e-09,3,False,estacionaria
+full,Δ52 y,KPSS,c,0.30674930004029016,0.1,15,True,estacionaria
+full,Δ1Δ52 y,ADF,c,-11.666563908633021,1.8780462969975743e-21,10,False,estacionaria
+full,Δ1Δ52 y,KPSS,c,0.03853998262947934,0.1,27,True,estacionaria
