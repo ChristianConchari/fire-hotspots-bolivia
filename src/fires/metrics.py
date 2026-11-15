@@ -1,0 +1,76 @@
+"""Forecast accuracy metrics on the count scale.
+
+A forecast table is long: one row per (origin, target_week, h) with columns
+``origin, target_week, h, y_true, y_pred`` (counts, not log1p). Targets whose
+``y_true`` is NaN (sensor outages) are left out of every metric.
+"""
+
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+
+EXCLUDED_YEAR = 2024  # ISO year left out of the "excl_2024" evaluation set
+EVAL_SETS = ("all", "excl_2024")
+
+
+def _valid_pairs(y_true, y_pred) -> tuple[np.ndarray, np.ndarray]:
+    t = np.asarray(y_true, dtype=float)
+    p = np.asarray(y_pred, dtype=float)
+    keep = ~np.isnan(t)
+    return t[keep], p[keep]
+
+
+def mae(y_true, y_pred) -> float:
+    """Mean absolute error, ignoring pairs whose actual value is NaN."""
+    t, p = _valid_pairs(y_true, y_pred)
+    return float(np.mean(np.abs(t - p))) if len(t) else float("nan")
+
+
+def rmse(y_true, y_pred) -> float:
+    """Root mean squared error, ignoring pairs whose actual value is NaN."""
+    t, p = _valid_pairs(y_true, y_pred)
+    return float(np.sqrt(np.mean((t - p) ** 2))) if len(t) else float("nan")
+
+
+def eval_subset(fc: pd.DataFrame, eval_set: str) -> pd.DataFrame:
+    """Rows of the forecast table that belong to an evaluation set."""
+    if eval_set == "all":
+        return fc
+    if eval_set == "excl_2024":
+        year = pd.DatetimeIndex(fc["target_week"]).isocalendar().year.to_numpy()
+        return fc[year != EXCLUDED_YEAR]
+    raise ValueError(f"unknown eval_set {eval_set!r}")
+
+
+def metrics_by_horizon(fc: pd.DataFrame, model: str = "") -> pd.DataFrame:
+    """MAE and RMSE per horizon for each evaluation set.
+
+    Returns columns ``model, eval_set, h, mae, rmse, n`` (n = targets actually scored).
+    """
+    rows = []
+    for eval_set in EVAL_SETS:
+        sub = eval_subset(fc, eval_set)
+        for h, g in sub.groupby("h"):
+            t, _ = _valid_pairs(g["y_true"], g["y_pred"])
+            rows.append(
+                {
+                    "model": model,
+                    "eval_set": eval_set,
+                    "h": int(h),
+                    "mae": mae(g["y_true"], g["y_pred"]),
+                    "rmse": rmse(g["y_true"], g["y_pred"]),
+                    "n": len(t),
+                }
+            )
+    return pd.DataFrame(rows, columns=["model", "eval_set", "h", "mae", "rmse", "n"])
+
+
+def relative_mae(model_metrics: pd.DataFrame, naive_metrics: pd.DataFrame) -> pd.DataFrame:
+    """MAE_model / MAE_seasonal_naive per horizon and evaluation set (< 1 beats naive)."""
+    keys = ["eval_set", "h"]
+    m = model_metrics[[*keys, "mae"]].merge(
+        naive_metrics[[*keys, "mae"]], on=keys, suffixes=("", "_naive")
+    )
+    m["rel_mae"] = m["mae"] / m["mae_naive"]
+    return m[[*keys, "rel_mae"]]
