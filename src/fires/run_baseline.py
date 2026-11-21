@@ -12,12 +12,16 @@ import pandas as pd
 
 from fires.backtest import RESULTS, load_series, rolling_origin
 from fires.metrics import metrics_by_horizon
-from fires.models import make_fourier_arima, seasonal_naive
+from fires.models import make_fourier_arima, make_fourier_arima_oni, seasonal_naive
+
+ONI_LAG_WEEKS = 34
 
 MODELS = {
     "seasonal_naive": seasonal_naive,
     "fourier_arma101": make_fourier_arima(2, (1, 0, 1), "c"),
     "fourier_arima012": make_fourier_arima(2, (0, 1, 2), "n"),
+    # lag chosen on 2012-2020 only (results/oni_lag_selection.csv, lowest AIC)
+    "fourier_arima012_oni": make_fourier_arima_oni(2, (0, 1, 2), "n", lag_weeks=ONI_LAG_WEEKS),
 }
 
 

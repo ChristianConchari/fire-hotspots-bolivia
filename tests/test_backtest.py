@@ -104,3 +104,18 @@ def test_comparison_uses_common_targets_and_ratio() -> None:
     assert (a["n"] == 1).all()
     assert a.loc["seasonal_naive", "bias"] == 4.0 and a.loc["m", "bias"] == 2.0
     assert a.loc["m", "mae_ratio_vs_naive"] == 0.5
+
+
+def test_backtransform_columns() -> None:
+    df = _frame()
+
+    def fake(train: pd.Series, h: int) -> pd.DataFrame:
+        return pd.DataFrame(
+            {"y_log": np.full(h, 3.0), "duan": 2.0, "sigma2": 0.5}, index=future_index(train, h)
+        )
+
+    out = rolling_origin(fake, df, origins=make_origins(df.index)[:2])
+    assert np.allclose(out["y_pred"], np.expm1(3.0))
+    assert np.allclose(out["y_pred_duan"], np.exp(3.0) * 2.0 - 1)
+    assert np.allclose(out["y_pred_sigma2"], np.expm1(3.0 + 0.25))
+    assert np.allclose(out["y_log"], 3.0)

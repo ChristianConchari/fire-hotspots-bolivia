@@ -113,7 +113,10 @@ def resid_stats(res) -> tuple[float, float]:
     Residuals come from the training sample only (burn-in and missing weeks dropped), so
     they are available at the origin. Both are on the log1p scale.
     """
-    e = np.asarray(res.resid, dtype=float)[res.loglikelihood_burn:]
+    # Burn-in counts from the first OBSERVED week (the ONI model has a NaN prefix, where the
+    # diffuse initial residual would otherwise slip in and blow up mean(exp(e))).
+    first = int(np.argmax(np.isfinite(np.asarray(res.model.endog, dtype=float).ravel())))
+    e = np.asarray(res.resid, dtype=float)[first + res.loglikelihood_burn :]
     e = e[np.isfinite(e)]
     return float(np.mean(np.exp(e))), float(np.var(e))
 

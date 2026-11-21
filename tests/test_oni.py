@@ -69,3 +69,16 @@ def test_forecast_weeks_use_only_published_oni() -> None:
     for lag in ONI_LAG_CANDIDATES:
         assert lagged_oni_exog(oni, fut, lag, origin=origin).notna().all()
     assert lagged_oni_exog(oni, fut, 20, origin=origin).isna().any()
+
+
+def test_resid_stats_ignores_nan_prefix_and_diffuse_start() -> None:
+    from fires.models import fit_sarimax, resid_stats
+
+    rng = np.random.default_rng(3)
+    idx = pd.date_range("2012-01-23", periods=260, freq="7D")
+    y = pd.Series(5 + rng.normal(0, 0.5, len(idx)), index=idx)
+    ex = pd.DataFrame({"oni_lag": rng.normal(size=len(idx))}, index=idx)
+    ex.iloc[:40] = np.nan  # ONI not available yet: those rows leave the likelihood
+    res = fit_sarimax(y, 2, (0, 1, 2), "n", extra_exog=ex)
+    duan, sigma2 = resid_stats(res)
+    assert 1.0 < duan < 1.5 and 0.1 < sigma2 < 0.6  # no diffuse start residual (would be >>1)
