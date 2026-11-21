@@ -2,7 +2,9 @@
 
 A model is any callable ``fit_forecast(train: pd.Series, h: int) -> pd.Series``:
 ``train`` is y = log1p(hotspots) (NaN kept) up to and including the origin week, and
-the result has length h, on the log1p scale, indexed by the h following weeks.
+the result has length h, on the log1p scale, indexed by the h following weeks. It is either
+a Series (the log1p forecast) or a DataFrame with columns ``y_log`` and optionally ``duan``
+(Duan smearing factor) and ``sigma2`` (residual variance), both estimated at the origin.
 """
 
 from __future__ import annotations
@@ -48,7 +50,11 @@ def rolling_origin(
     max_h: int = MAX_H,
     refit_every: int = 1,
 ) -> pd.DataFrame:
-    """Expanding-window backtest. Returns origin, target_week, h, y_true, y_pred (counts).
+    """Expanding-window backtest. Returns origin, target_week, h, y_true and count forecasts.
+
+    ``y_pred`` = expm1(f), the median back-transform (as in Gate 2); ``y_pred_duan`` =
+    exp(f) * mean(exp(resid)) - 1 (Duan smearing); ``y_pred_sigma2`` = expm1(f + sigma2/2);
+    the last two are NaN for models that give no residual stats. ``y_log`` is f itself.
 
     ``refit_every``: refit at every k-th origin (default 1 = every origin).
     TODO(phase 4): for k > 1, reuse the fitted model between refits and only update its
@@ -62,16 +68,24 @@ def rolling_origin(
     for origin in origins:
         train = df["y"].loc[:origin]  # includes the origin, nothing later
         fc = fit_forecast(train, max_h)
+        if isinstance(fc, pd.Series):
+            fc = fc.rename("y_log").to_frame()
         if len(fc) != max_h:
             raise ValueError(f"fit_forecast returned {len(fc)} values, expected {max_h}")
-        for h, (target, value) in enumerate(fc.items(), start=1):
+        for h, (target, r) in enumerate(fc.iterrows(), start=1):
+            f = float(r["y_log"])
+            duan = float(r.get("duan", np.nan))
+            s2 = float(r.get("sigma2", np.nan))
             rows.append(
                 {
                     "origin": origin,
                     "target_week": target,
                     "h": h,
                     "y_true": df["hotspots"].get(target, np.nan),
-                    "y_pred": float(np.expm1(value)),
+                    "y_pred": float(np.expm1(f)),
+                    "y_pred_duan": float(np.exp(f) * duan - 1),
+                    "y_pred_sigma2": float(np.expm1(f + s2 / 2)),
+                    "y_log": f,
                 }
             )
     return pd.DataFrame(rows)
