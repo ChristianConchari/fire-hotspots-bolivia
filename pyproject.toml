@@ -26,3 +26,7 @@ packages = ["src/fires"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebook kept as executed; these two findings are cosmetic.
+"notebooks/03_exogenous.ipynb" = ["I001", "F401"]
